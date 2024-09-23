@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/graziellebrunoro/Projects/04-ListaLigada/04-ListaLigada/ListaLigada/ListaLigada/output/ListaLigada'
+relocations:     []
+...

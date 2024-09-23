@@ -73,7 +73,7 @@ void menu()
 void inicializar()
 {
 
-	// se a lista j� possuir elementos
+	// se a lista j� possuir elementos
 	// libera a memoria ocupada
 	NO* aux = primeiro;
 	while (aux != NULL) {
@@ -126,37 +126,85 @@ void inserirElemento()
 
 	cout << "Digite o elemento: ";
 	cin >> novo->valor;
-	novo->prox = NULL;
 
-	if (primeiro == NULL)
-	{
-		primeiro = novo;
-	}
-	else
-	{
-		// procura o final da lista
-		NO* aux = primeiro;
-		while (aux->prox != NULL) {
-			aux = aux->prox;
-		}
-		aux->prox = novo;
-	}
+	// Verifica se o valor já existe na lista
+    if (posicaoElemento(novo->valor) != NULL) {
+        cout << "Elemento já existe na lista. Inserção ignorada.\n";
+        free(novo); // Libera a memória do novo nó, pois não será inserido
+        return;
+    }
+
+    novo->prox = NULL;
+
+    if (primeiro == NULL) {
+        primeiro = novo; // Lista vazia, novo nó se torna o primeiro
+    } else {
+        // Procura o final da lista
+        NO* aux = primeiro;
+        while (aux->prox != NULL) {
+            aux = aux->prox;
+        }
+        aux->prox = novo; // Insere o novo nó no final da lista
+    }
 }
 
 void excluirElemento()
+
 {
-	
+	int numero;
+cout << "Digite o numero a ser buscado e deletado: ";
+cin >> numero;
+
+// Verifica se a lista está vazia
+if (primeiro == NULL) {
+    cout << "A lista está vazia!\n";
+    return;
+}
+
+// Usa posicaoElemento para encontrar o nó a ser deletado
+NO* aux = posicaoElemento(numero);
+
+// Se o nó não for encontrado
+if (aux == NULL) {
+    cout << "Elemento não encontrado.\n";
+    return;
+}
+
+// Caso especial: Se o nó a ser deletado for o primeiro nó
+if (aux == primeiro) {
+    primeiro = primeiro->prox; // Atualiza o primeiro nó
+} else {
+    // Encontra o nó anterior
+    NO* anterior = primeiro;
+    while (anterior->prox != aux) {
+        anterior = anterior->prox;
+    }
+    anterior->prox = aux->prox; // Ignora o nó a ser deletado
+}
+
+free(aux); // Libera a memória do nó deletado
+cout << "Elemento excluído.\n";
 }
 
 void buscarElemento()
 {
-	
+    int numero;
+    cout << "Digite o numero a ser buscado: ";
+    cin >> numero;
+
+    // Usa a função posicaoElemento para encontrar o nó
+    NO* resultado = posicaoElemento(numero);
+
+    // Checa se o nó foi encontrado
+    if (resultado != NULL) {
+        cout << "Encontrado\n";
+    } else {
+        cout << "Elemento nao encontrado\n";
+    }
 }
 
-
-
 // retorna um ponteiro para o elemento buscado
-// ou NULL se o elemento n�o estiver na lista
+// ou NULL se o elemento n�o estiver na lista
 NO* posicaoElemento(int numero)
 {
 	NO* aux = primeiro;
